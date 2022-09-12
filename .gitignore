@@ -1,0 +1,14 @@
+*~
+*.pak
+*.uasset
+*.umap
+*.uexp
+*.lua
+*.lub
+*.sh
+__pycache__
+settings.json
+Newera-Switch*
+seed_*
+build
+dist

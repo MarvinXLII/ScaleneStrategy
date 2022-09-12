@@ -1,0 +1,157 @@
+{
+  Main/ms01_x01/ms01_x01_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_P014
+    UNIT_MASTER_CH_P015
+  ],
+  Main/ms02_x02/ms02_x02_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N204
+    UNIT_MASTER_CH_N202
+  ],
+  Main/ms02_x02/ms02_x02_battle_02_drama.uasset: [],
+  Main/ms03_x03/ms03_x03_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N106
+  ],
+  Main/ms03_x04/ms03_x04_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N204
+    UNIT_MASTER_CH_M103
+  ],
+  Main/ms04_x05/ms04_x05_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N105
+  ],
+  Main/ms05_x06/ms05_x06_battle_01_drama.uasset: [],
+  Main/ms06_x07/ms06_x07_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_P021
+  ],
+  Main/ms07_x08/ms07_x08_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_P016
+  ],
+  Main/ms07_x09/ms07_x09_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N008
+  ],
+  Main/ms08a_x10/ms08a_x10_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N007
+  ],
+  Main/ms08a_x11/ms08a_x11_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N007
+  ],
+  Main/ms08b_x12/ms08b_x12_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N203
+    UNIT_MASTER_CH_P016
+  ],
+  Main/ms08b_x13/ms08b_x13_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_P016
+    UNIT_MASTER_CH_N203
+  ],
+  Main/ms09_x14/ms09_x14_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_P014
+    UNIT_MASTER_CH_P015
+  ],
+  Main/ms09_x15/ms09_x15_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N203
+  ],
+  Main/ms10a_x16/ms10a_x16_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N104
+    UNIT_MASTER_CH_N106
+  ],
+  Main/ms10a_x17/ms10a_x17_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N007
+  ],
+  Main/ms10b_x18/ms10b_x18_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_M101
+  ],
+  Main/ms10b_x19/ms10b_x19_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N202
+  ],
+  Main/ms11_x20/ms11_x20_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N007
+    UNIT_MASTER_CH_N009
+  ],
+  Main/ms11_x21/ms11_x21_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N009
+    UNIT_MASTER_CH_N006
+    UNIT_MASTER_CH_N007
+  ],
+  Main/ms12_x22/ms12_x22_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N009
+    UNIT_MASTER_CH_N006
+    UNIT_MASTER_CH_N007
+  ],
+  Main/ms12_x23/ms12_x23_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N007
+    UNIT_MASTER_CH_N009
+  ],
+  Main/ms13_x24/ms13_x24_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N106
+  ],
+  Main/ms13_x25/ms13_x25_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N103
+  ],
+  Main/ms13_x26/ms13_x26_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N102
+    UNIT_MASTER_CH_N103
+  ],
+  Main/ms14_x27/ms14_x27_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N102
+    UNIT_MASTER_CH_N103
+  ],
+  Main/ms14_x28/ms14_x28_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_P016
+  ],
+  Main/ms14_x29/ms14_x29_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_P016
+  ],
+  Main/ms15_x30/ms15_x30_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N005
+    UNIT_MASTER_CH_N004
+  ],
+  Main/ms15_x31/ms15_x31_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N004
+  ],
+  Main/ms15_x32/ms15_x32_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_P014
+  ],
+  Main/ms15_x33/ms15_x33_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_P015
+  ],
+  Main/ms16_x34/ms16_x34_battle_01_drama.uasset: [],
+  // Main/ms17b_x35/ms17b_x35_battle_01_drama.uasset: [],
+  // Main/ms17f_x37/ms17f_x37_battle_01_drama.uasset: [],
+  // Main/ms17r_x36/ms17r_x36_battle_01_drama.uasset: [],
+  Main/ms18b_x39/ms18b_x39_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N301
+  ],
+  Main/ms18f_x41/ms18f_x41_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N207
+  ],
+  Main/ms18r_x40/ms18r_x40_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N204
+    UNIT_MASTER_CH_N106
+  ],
+  Main/ms19b_x43/ms19b_x43_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N204
+  ],
+  Main/ms19b_x43/ms19b_x43_battle_02_drama.uasset: [
+    UNIT_MASTER_CH_N201
+  ],
+  Main/ms19f_x45/ms19f_x45_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N205
+  ],
+  Main/ms19f_x45/ms19f_x45_battle_02_drama.uasset: [
+    UNIT_MASTER_CH_N206
+  ],
+  Main/ms19r_x44/ms19r_x44_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N204
+    UNIT_MASTER_CH_N101
+  ],
+  Main/ms19r_x44/ms19r_x44_battle_02_drama.uasset: [
+    UNIT_MASTER_CH_N104
+  ],
+  Main/ms18s_x42/ms18s_x42_battle_01_drama.uasset: [],
+  Main/ms17s_x38/ms17s_x38_battle_01_drama.uasset: [],
+  Main/ms19s_x46/ms19s_x46_battle_01_drama.uasset: [],
+  Main/ms20s_x47/ms20s_x47_battle_01_drama.uasset: [
+    UNIT_MASTER_CH_N204
+  ],
+  Main/ms21s_x48/ms21s_x48_battle_01_drama.uasset: [],
+  Main/ms21s_x48/ms21s_x48_battle_02_drama.uasset: [],
+}
