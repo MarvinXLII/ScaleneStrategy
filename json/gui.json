@@ -2,6 +2,12 @@
   Settings: {
     Class/Weapons: [
       {
+	name: random-class-support-skills
+	label: "Random support skills (New Game Only)"
+	type: checkbutton
+	help: "Randomly assign a set of support skills to each unit.\n\nNote: Since skills are stored in save files, this will only work properly in New Games.\n\nNote: Counter attack animations typically use dummy sprites.\n\nNote: Decimal is stuck with his support skills for technical reasons."
+      }
+      {
 	name: shuffle-class-rank-items
 	label: Shuffle class promotion items
 	type: checkbutton
@@ -17,7 +23,7 @@
 	name: random-weapon-exclusives
 	label: Random weapon ability pairs
 	type: checkbutton
-	help: "Randomly assign pairs of abilities, e.g. Serenoa could be allowed to learn both Delaying Strike Damage Up and Hawk Dive Range +1, but only be allowed to enable either Physical Defense Up I or Magic Defense Up I, not both." 
+	help: "Randomly assign pairs of abilities, e.g. Serenoa could be allowed to learn both Delaying Strike Damage Up and Hawk Dive Range +1, but only be allowed to enable either Physical Defense Up I or Magic Defense Up I, not both simultaneously."
       }
       {
 	name: random-weapon-preconditions
@@ -47,19 +53,25 @@
 	type: checkbutton
 	help: "Conviction requirements for persuasion are reduced to remove any need for grinding convictions.\n\nNote that characters can still be indifferent to your plea if you choose the worst possible options."
       }
+      {
+	name: qol-serenoa-optional
+	label: Optional Serenoa
+	type: checkbutton
+	help: "Serenoa won't be mandatory for Main Story battles (except for the first battle, of course)."
+      }
     ]
     Battles: [
       {
 	name: random-battle-unit-placement
 	label: Random unit/enemy starting positions
 	type: checkbutton
-	help: "Randomly places starting positions of playable units and enemy units in Main Story battles.\n\nWhile all battles should be beatable on any difficulty setting, do not expect a deathless run to be possible thanks to some of those allied units."
+	help: "Randomly place starting positions of playable units and enemy units in Main Story battles.\n\nWhile all battles should be beatable on any difficulty setting, do not expect a deathless run to be possible."
       }
       {
 	name: shuffle-battle-initial-charge-times
 	label: Shuffle starting order
 	type: checkbutton
-	help: "Shuffles the order that playable units and enemy units start in Main Story battles.\n\nWhile all battles should be beatable on any difficulty setting, do not expect a deathless run to be possible thanks to some of those allied units."
+	help: "Shuffles the order that playable units and enemy units start in Main Story battles.\n\nWhile all battles should be beatable on any difficulty setting, do not expect a deathless run to be possible."
       }
       {
 	name: shuffle-battle-weather
@@ -85,9 +97,17 @@
 	    name: update-playable-unit-sprites
 	    label: Shuffle sprites
 	    type: checkbutton
-	    help: "Sprites in cutscenes are also swapped. This can help you keep track of when playable units will join or leave your party. With the exception of spoken cutscenes, character names in the text are also updated to help with this.\n\nNote that some character animations don't exist and were replaced with other animations when possible.\n\nAlso note that one cutscene of Frederica et al. entering Hyzante in the late game could not be updated."
+	    help: "Also swap sprites of playable characters in cutscenes. It's not perfect, but can help you keep track of when units join or leave your party. Character names in unspoken text are also updated to help with this, at least when voting.\n\nNote that some character animations don't exist and were replaced with other animations when possible.\n\nAlso note that one cutscene of Frederica et al. entering Hyzante in the late game could not be updated."
 	  }
 	]
+      }
+    ]
+    Exploration: [
+      {
+	name: random-exploration-items
+	label: Random items & money
+	type: checkbutton
+	help: "Randomly replace items and money found during exploration. All collectible Notes are replaced with normal items or money. No Information or anything else needed for progression (e.g. the Pink Rock) is modified. Neither are any other Notes/Items found after completing various tasks (e.g. petting all cats)."
       }
     ]
   }

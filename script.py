@@ -4,8 +4,9 @@ import sys
 sys.path.append('src')
 import random
 import argparse
-from randomizer import Switch
+from Randomizer import Switch
 from Pak import Pak
+from release import RELEASE
 
 def argumentParser():
     parser = argparse.ArgumentParser(description='Randomize Triangle Strategy')
@@ -27,23 +28,28 @@ def main():
         settings = {
             'pak': 'Newera-Switch.pak',
             'seed': random.randint(0, 2**31-1),
-            'random-item-costs': True,
-            'random-inventory-numbers': True,
+            'random-class-support-skills': True,
+            'shuffle-class-rank-items': True,
+            'random-weapon-materials': True,
             'random-weapon-exclusives': True,
             'random-weapon-preconditions': True,
-            'random-weapon-materials': True,
-            'shuffle-class-rank-items': True,
+            'random-item-costs': True,
+            'random-inventory-numbers': True,
+            'qol-easier-voting': True,
+            'qol-serenoa-optional': True,
+            'random-battle-unit-placement': True,
+            'shuffle-battle-initial-charge-times': True,
             'shuffle-battle-weather': True,
             'shuffle-battle-time': True,
             'shuffle-playable-units': True,
             'update-playable-unit-sprites': True,
-            'random-battle-unit-placement': True,
-            'shuffle-battle-initial-charge-times': True,
-            'qol-easier-voting': True,
+            'random-exploration-items': True,
+            # 'testing': True,
         }
 
     for k, v in args.items():
         settings[k] = v
+    settings['release'] = RELEASE
 
     if os.path.isfile(settings['pak']):
         pak = Pak(settings['pak'])
@@ -56,5 +62,5 @@ def main():
     mod.dump()
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     main()

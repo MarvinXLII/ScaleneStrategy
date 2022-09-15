@@ -88,7 +88,9 @@ class Units:
             Lub(pak, 'ms10a_f01_c0_2010.lub'),
             Lub(pak, 'ms14_x28_a0_0025.lub'),
             # Misc cutscene patches
+            Lub(pak, "EffectCommon.lub"),
             Lub(pak, 'ms01_x01_a0_0020.lub'),
+            Lub(pak, "ms02_x02_battle_01_after_01.lub"),
             Lub(pak, 'ms17_h01_vote_110.lub'),
             Lub(pak, 'ms17_h01_vote_120.lub'),
             Lub(pak, 'ms17_h01_vote_130.lub'),

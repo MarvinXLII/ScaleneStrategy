@@ -78,42 +78,6 @@ class Tile(Byte):
         return d
 
 
-class AIMAP:
-    def __init__(self, pak, filename):
-        self.pak = pak
-        self.filename = filename
-        self.data = Data(pak, self.filename)
-        self.uasset = self.data.uasset
-        self.attackableGrids = self.getAttackableGrids()
-        self.movableGrids = self.getMovableGrids()
-
-    def getAttackableGrids(self):
-        attackableGrids = {}
-        for i, exp in self.uasset.exports.items():
-            if exp.uexp1 and 'AttackableGrids' in exp.uexp1:
-                attackableGrids[i] = exp.uexp1['AttackableGrids'].array
-        return attackableGrids
-
-    def getMovableGrids(self):
-        movableGrids = {}
-        for i, exp in self.uasset.exports.items():
-            if exp.uexp1 and 'MovableGrids' in exp.uexp1:
-                movableGrids[i] = exp.uexp1['MovableGrids'].array
-        return movableGrids
-
-    def setAttackableGrids(self):
-        for i, grid in self.attackableGrids.items():
-            self.uasset.exports[i].uexp1['AttackableGrids'].array = grid
-
-    def setMovableGrids(self):
-        for i, grid in self.movableGrids.items():
-            self.uasset.exports[i].uexp1['MovableGrids'].array = grid
-
-    def update(self, force=False):
-        self.setAttackableGrids()
-        self.setMovableGrids()
-        self.data.update(force=False)
-
 class MAP:
     def __init__(self, pak, filename, allow=None):
         self.pak = pak
@@ -183,13 +147,9 @@ class TileMap:
     def __init__(self, f, allow=None):
         self.f = f
         self.include = set()
-        ## REMOVED ROOF, MUST CHECK THAT ANY STARTING POINT CAN REACH THE BASE
-        self.omit = set(['water', 'obstacle','nopass','none',
+        self.omit = set(['water', 'obstacle','nopass','none', # 'roof',
                          'nopass_hit_by_knockback', 'none_nopass',
                          'magma', 'great_magma', 'thorn'])
-        # self.omit = set(['roof', 'water', 'obstacle','nopass','none',
-        #                  'nopass_hit_by_knockback', 'none_nopass',
-        #                  'magma', 'great_magma'])
 
         if allow is not None:
             self.omit = self.omit.difference(allow)
@@ -205,7 +165,6 @@ class TileMap:
         self.header = None
         self.footer = None
         # self.isLoaded = False
-
 
         self.load()
         self.fillChangeHeight()
@@ -564,7 +523,7 @@ class TileMap:
             if p == point: continue
             if calcDist2(p) < tol*tol:
                 ph = self.getHeight(*p)
-                if abs(ph - h) < dh:
+                if abs(ph - h) <= dh:
                     grid.append(p)
 
         if len(grid) == 0:
@@ -895,8 +854,10 @@ class TileMap:
             return path
 
         while openSet:
-            # TODO: rewrite using queue library
-            queue = sorted(openSet, key=lambda n: fScore[n])
+            # Sort twice to ensure the queue is always in the same order
+            # There can be minor differences when running the randomizer
+            # from a script, from the gui, from an executable, etc.
+            queue = sorted(sorted(openSet), key=lambda n: fScore[n])
             current = queue.pop(0)
             if current == dest:
                 return reconstructPath(current)
@@ -1014,6 +975,21 @@ class TileMap:
         return (x//n, y//n)
 
     def randomEdgePoint(self, grid=None, pt=None):
+        # Previously found edge points not accessible to everyone with dh=3.
+        # This is a crude fix to that problem.
+        def checkPoint(x, y):
+            if not self.isValid(x, y):
+                return False
+            ok = True
+            h = self.getHeight(x, y)
+            for di, dj in [(1,1), (1,-1), (-1,1), (-1,-1)]:
+                x2 = x + di
+                y2 = y + dj
+                dh = abs(h - self.getHeight(x2, y2))
+                ok *= self.isValid(x2, y2)
+                ok *= dh <= 2
+            return ok
+        
         if pt:
             X, Y = pt
         else:
@@ -1031,7 +1007,7 @@ class TileMap:
                 else:
                     X = self.nx - 1
 
-        if self.isValid(X, Y):
+        if checkPoint(X, Y):
             if not grid:
                 return X, Y
             elif (X, Y) in grid:
@@ -1044,7 +1020,7 @@ class TileMap:
             X, Y = queue.pop()
             if (X, Y) not in visited: # OOB
                 continue
-            if self.isValid(X, Y):
+            if checkPoint(X, Y):
                 if not grid:
                     return X, Y
                 elif (X, Y) in grid:
@@ -1066,27 +1042,23 @@ class TileMap:
         w = random.sample(range(1, 10), len(dp))
         i = 0
         s = 0
-        maxPoints = set()
         while len(points) < n:
             x, y = pt
-            # dx, dy = random.sample(dp, 1)[0]
             dx, dy = random.choices(dp, w, k=1)[0]
             x += dx
             y += dy
             dh = abs(self.getHeight(*pt) - self.getHeight(x, y))
-            if self.isValid(x, y) and dh < d:
+            if self.isValid(x, y) and dh <= d:
                 pt = (x, y)
                 points.add(pt)
 
-            # Increment only if points grows
+            # Increment only if size of points doesn't grow
             i += s == len(points)
             if i == 100:
                 break
             s = len(points)
-            if s > len(maxPoints):
-                maxPoints = points
 
-        return sorted(maxPoints)
+        return sorted(points)
 
     def randomWalkGrid(self, n, grid):
         n = min(n, len(grid))

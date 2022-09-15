@@ -8,10 +8,11 @@ from Units import Units
 from Level import Level, initLevels, randomizeLevelInits
 from Text import TextAll
 from Maps import MapCfg
-from Items import Accessories, ClassMedal, ItemBattle, UpgradeMaterial, Shops, ResearchItems, research_item_modding_demo
+from Items import Accessories, ClassMedal, ItemBattle, UpgradeMaterial, Shops, research_item_randomize, research_spoiler
 from Weapons import WeaponAbilityTree, WeaponMaterial, Weapon
 from Growth import Growth
 from World import World
+from Jobs import Jobs
 import random
 from dataclasses import dataclass
 
@@ -37,6 +38,7 @@ class Rando:
             os.makedirs(self.outPath)
 
         self.units = Units(pak)
+        self.jobs = Jobs(pak)
         self.text = TextAll(pak)
         self.mapcfg = MapCfg(pak)
         self.accessories = Accessories(pak)
@@ -50,6 +52,7 @@ class Rando:
         self.growth = Growth(pak)
         self.world = World(pak)
         self.levels = initLevels(pak)
+        self.research = research_item_randomize(pak)
 
     def failed(self):
         print(f"Randomizer failed! Removing directory {self.outPath}.")
@@ -69,6 +72,11 @@ class Rando:
         self.seed.setSeed()
         if self.settings['random-inventory-numbers']:
             self.shops.randomInventory()
+
+        # Class stuff
+        self.seed.setSeed()
+        if self.settings['random-class-support-skills']:
+            self.jobs.randomSupport()
 
         # Weapon trees
         self.seed.setSeed()
@@ -121,7 +129,10 @@ class Rando:
                 self.text.swapSpriteNames(self.units)
 
         if self.settings['random-battle-unit-placement']:
-            randomizeLevelInits(self.levels, self.settings['seed'], test=False)
+            if 'testing' in self.settings:
+                randomizeLevelInits(self.levels, self.settings['seed'], self.pak, test=self.settings['testing'])
+            else:
+                randomizeLevelInits(self.levels, self.settings['seed'], self.pak, test=False)
 
         # Shuffle starting turn order
         self.seed.setSeed()
@@ -129,26 +140,36 @@ class Rando:
             for level in self.levels:
                 level.randomTimes()
 
-        ##### TESTING #####
-        # research_item_modding_demo(pak)
-        ###################
+        self.seed.setSeed()
+        if self.settings['random-exploration-items']:
+            for chapter in self.research:
+                chapter.randomItems()
 
     def qualityOfLife(self):
         # Voting
         if self.settings['qol-easier-voting']:
             self.units.simpleVoting()
 
+        # Remove Serenoa
+        if self.settings['qol-serenoa-optional']:
+            for level in self.levels[1:]: # Skip the first level
+                level.removeSerenoa()
+
         # My own testing stuff....
         if 'testing' in self.settings:
             if self.settings['testing']:
-                # Give enemies stats of 3
                 self.growth.weakEnemies()
-                # Recruiting via character stories
                 # self.world.simpleCharaStories()
 
-    def _spoilerLog(self):
+    def spoilerLog(self):
         if self.settings['shuffle-playable-units']:
             self.units.spoilers(self.outPath, 'shuffled_units.log')
+
+        if self.settings['random-class-support-skills']:
+            self.jobs.spoilers(self.outPath, 'random_support_skills.log')
+
+        if self.settings['random-exploration-items']:
+            research_spoiler(self.research, self.outPath, 'random_items.log')
 
     def dump(self, fileName):
         self.text.update()
@@ -157,6 +178,7 @@ class Rando:
         self.accessories.update()
         self.medals.update()
         self.battleitems.update()
+        self.jobs.update()
         self.materials.update()
         self.shops.update()
         self.wpnTree.update()
@@ -166,10 +188,12 @@ class Rando:
         self.world.update()
         for level in self.levels:
             level.update()
+        for research in self.research:
+            research.update()
 
         self.pak.buildPak(fileName)
 
-        self._spoilerLog()
+        self.spoilerLog()
 
         settingsOutput = os.path.join(self.outPath, 'settings.json')
         with open(settingsOutput, 'w') as file:

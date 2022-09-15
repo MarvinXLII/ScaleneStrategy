@@ -10,12 +10,13 @@ from TileMap import MAP
 from Positions import POSITION, PLAYERPOSITION, ENEMYPOSITION, SPAWNPOSITION
 from math import log10, floor
 import sys
-import signal
+if 'linux' in sys.platform:
+    import signal
 
 # TODO: Clean up this mess.
 
 class Level:
-    def __init__(self, pak, filename, mapIndex, sceneFilename=None):
+    def __init__(self, pak, filename, mapIndex, sceneFilename=None, allow=None):
         self.battle = Lub(pak, f'{filename}.lub')
         self.battleCommon = Lub(pak, f'{filename}_common.lub')
         if sceneFilename == None:
@@ -25,7 +26,7 @@ class Level:
         self.battleScene = Lub(pak, sceneFilename)
 
         mapDirname = '_'.join(filename.split('_')[:2])
-        self.mapObj = MAP(pak, f'WBAsset/{mapDirname}/{filename}.uasset')
+        self.mapObj = MAP(pak, f'WBAsset/{mapDirname}/{filename}.uasset', allow=allow)
         self.mapGrid = self.mapObj.maps[mapIndex]
 
         self.aiObj = Data(pak, f'Story/{mapDirname}/{filename}.umap')
@@ -64,14 +65,18 @@ class Level:
             sys.exit(f"{self.__class__.__name__}: Not all enemies moved!")
         return allMoved
 
+    def checkUnitLocationConflict(self):
+        pc = set([(p.X, p.Y) for p in self.pcPositions])
+        en = set([(e.X, e.Y) for e in self.enemyPositions])
+        assert len(pc) == len(self.pcPositions), f"{self.__class__.__name__}: {len(pc)}     {len(self.pcPositions)}"
+        assert len(en) == len(self.enemyPositions), f"{self.__class__.__name__}: {len(en)}     {len(self.enemyPositions)}"
+        assert pc.isdisjoint(en), list(filter(lambda x: x in en, pc))
+
     def update(self):
         # Check for errors with PC and enemy locations
         if self.isRandomized:
-            pc = set([(p.X, p.Y) for p in self.pcPositions])
-            en = set([(e.X, e.Y) for e in self.enemyPositions])
-            assert len(pc) == len(self.pcPositions), f"{self.__class__.__name__}: {len(pc)}     {len(self.pcPositions)}"
-            assert len(en) == len(self.enemyPositions), f"{self.__class__.__name__}: {len(en)}     {len(self.enemyPositions)}"
-            assert pc.isdisjoint(en), list(filter(lambda x: x in en, pc))
+            self.checkAllEnemiesMoved()
+            self.checkUnitLocationConflict()
             for pc in self.pcPositions:
                 for en in self.enemyPositions:
                     dx = abs(en.X - pc.X)
@@ -105,6 +110,17 @@ class Level:
     def setAIAtkGrid(self, idx, grid):
         array = [(x, y, 0) for x, y in grid]
         self.aiObj.uasset.exports[idx].uexp1['AttackableGrids'].array = array
+
+    def removeSerenoa(self):
+        if self.initialUnitTable is None:
+            return
+        unitTable = self.initialUnitTable.getTable()
+        for i, table in enumerate(unitTable):
+            if table['ID'] == 'UNIT_MASTER_CH_P001':
+                break
+        else:
+            return
+        self.initialUnitTable.deleteEntry(i)
 
     def updateEnforcedPCs(self, mapPC):
         if self.initialUnitTable is None:
@@ -455,7 +471,7 @@ class MS03_X03(Level):
         refPoints = sorted(enemyPoints)
         while True:
             d = random.randint(5, 10)
-            refPt = random.sample(enemyPoints, 1)[0]
+            refPt = random.sample(refPoints, 1)[0]
             pt = self.mapGrid.randomNearbyPoint(refPt, d, candidates, tol=tol)
             tol += 1
             if pt is None:
@@ -524,8 +540,9 @@ class MS03_X04(Level):
         funcs[7].setArg(2, 'AI_FREE')
 
         # Make DGRID1
-        point = random.sample(vacant, 1)[0]
-        dgrid1 = self.mapGrid.bfs(point, len(vacant)*2//3, vacant)
+        candidates = sorted(vacant)
+        point = random.sample(candidates, 1)[0]
+        dgrid1 = self.mapGrid.bfs(point, len(candidates)*2//3, candidates)
         self.mapGrid.addSpec('DGRID1', dgrid1)
 
         # AI_DEF is subset of DGRID1
@@ -1278,6 +1295,7 @@ class MS07_X08(Level):
             if len(pcPoints) >= 15 and len(pcPoints) < 40:
                 break
         self.setPlayerPositions(pcPoints)
+        gridForAvlora = sorted(vacant)
         outline = self.mapGrid.outlineGrid(pcPoints, candidates)
         vacant = vacant.difference(pcPoints).difference(outline)
 
@@ -1289,24 +1307,17 @@ class MS07_X08(Level):
         for p, f in zip(points, funcs):
             self.setWaki(f, p)
 
-        # Set bow enemies
-        roofs = self.mapGrid.filterTileTypes('roof')
-        candidates = sorted(vacant.intersection(roofs))
-        if len(candidates) < len(self.bows):
-            candidates = sorted(vacant)
-        points = random.sample(candidates, len(self.bows))
-        self.setPositions(points, self.bows)
-        vacant = vacant.difference(points)
-        self.setAIMoveGrid(self.aiSetting2, roofs)
-
         # Set Avlora as far as possible from PCs
         pt = self.mapGrid.clusterMean(pcPoints)
+        # Don't allow her to start on an tile that can be burned
         candidates = sorted(vacant.difference(eventA).difference(eventB).difference(eventC).difference(eventD))
         tol = 3
         while True:
             avPoint = self.mapGrid.greatestDistance(pt, grid=candidates, tol=tol)
             if avPoint:
-                break
+                # Ensure no statues block Avlora's path to the pcs
+                if self.mapGrid.shortestPath(avPoint, pcPoints[0], grid=gridForAvlora):
+                    break
             tol += 1
         vacant.remove(avPoint)
         self.setPositions([avPoint], self.boss)
@@ -1321,7 +1332,18 @@ class MS07_X08(Level):
         while len(enemyPoints) < 2*len(self.enemiesAnywhere):
             enemyPoints.update(self.mapGrid.outlineGrid(enemyPoints, candidates, length=1))
         self.setPositions(enemyPoints, self.enemiesAnywhere)
-        vacant.difference(enemyPoints)
+        vacant = vacant.difference(enemyPoints)
+
+        # Set bow enemies -- done last to give Avlora and her neighboring enemies priority; 
+        roofs = self.mapGrid.filterTileTypes('roof')
+        candidates = sorted(vacant.intersection(roofs))
+        candidates += self.mapGrid.outlineGrid(candidates, vacant, length=2)
+        while len(candidates) < len(self.bows): # Last resort: no guarantee they'll have a short path to a rooftop, but whatever
+            candidates += self.mapGrid.outlineGrid(candidates, vacant, length=1)
+        points = random.sample(candidates, len(self.bows))
+        self.setPositions(points, self.bows)
+        vacant = vacant.difference(points)
+        self.setAIMoveGrid(self.aiSetting2, roofs)
 
         # Finalize
         self.setPCDirections()
@@ -2205,7 +2227,7 @@ class MS09_X15(Level):
         # Set boss cluster
         bookerPoint = self.mapGrid.greatestDistance(pcPoint, tol=2)
         grid = self.mapGrid.bfs(bookerPoint, 90, candidates)
-        points = set([bookerPoint])
+        points = set()
         candidates = sorted(vacant)
         while len(points) < len(self.bossCluster):
             n = random.randint(2, 5)
@@ -3079,7 +3101,7 @@ class MS13_X24(Level):
         # Set AI grids
         aiGrids = {k: self.mapGrid.getIdxs(k) for k in self.gridGroup}
         randomMap = {k:k for k in aiGrids}
-        keys = list(randomMap.keys())
+        keys = sorted(randomMap.keys())
         for i, k in enumerate(randomMap.keys()):
             r = random.sample(keys[i:], 1)[0]
             randomMap[k], randomMap[r] = randomMap[r], randomMap[k]
@@ -4188,12 +4210,12 @@ class MS14_X29(Level):
         while True:
             points1 = set()
             while len(points1) < n:
-                pt = random.sample(enemBoat, 1)[0]
+                pt = random.sample(sorted(enemBoat), 1)[0]
                 rect = self.mapGrid.randomRectangle(pt, n, enemBoat)
                 points1.update(rect)
             points2 = set()
             while len(points2) < m:
-                pt = random.sample(pcBoat, 1)[0]
+                pt = random.sample(sorted(pcBoat), 1)[0]
                 rect = self.mapGrid.randomRectangle(pt, m, pcBoat)
                 points2.update(rect)
             points = points1.union(points2)
@@ -5177,7 +5199,7 @@ class MS17S_X38(Level):
             if len(enemyPoints) >= 20:
                 break
         self.setPositions(enemyPoints, self.enemiesAnywhere)
-        vacant.difference(enemyPoints)
+        vacant = vacant.difference(enemyPoints)
 
         # Changes AI for most enemies if designated enemy lands on this grid
         candidates = sorted(allPoints)
@@ -5259,7 +5281,7 @@ class MS18B_X39(Level):
             while True:
                 barracks = set()
                 for _ in range(nlines):
-                    pt = random.sample(outline, 1)[0]
+                    pt = random.sample(sorted(outline), 1)[0]
                     n = random.randint(3, 6)
                     line = self.mapGrid.randomWalkGrid(n, outline)
                     barracks.update(line)
@@ -6087,7 +6109,8 @@ class MS19R_X44_P1(Level):
 
 class MS19R_X44_P2(Level):
     def __init__(self, pak):
-        super().__init__(pak, 'ms19r_x44_battle_02', 0, 'ms19r_x44_battle_S_02')
+        self.allow = ['magma','great_magma'] # allow for shortestPath calculations, must filter from vacant set
+        super().__init__(pak, 'ms19r_x44_battle_02', 0, 'ms19r_x44_battle_S_02', allow=self.allow)
 
         svarog = self.enemyPositions[0] # AI_BOSS -> AI_BASE
         swd1 = self.enemyPositions[1] # AI_BASE
@@ -6124,6 +6147,11 @@ class MS19R_X44_P2(Level):
     def random(self):
         self.isRandomized = True
         vacant = set(self.mapGrid.getAccessible(10, 24))
+        for allow in self.allow:
+            tiles = self.mapGrid.filterTileTypes(allow)
+            vacant = vacant.difference(tiles)
+
+        x = self.mapGrid.shortestPath((18,9), (5,10))
 
         # Allow boss to attack everywhere
         nx = self.mapGrid.nx
@@ -6567,8 +6595,13 @@ class MS19S_X46(Level):
         vacant = vacant.difference(grid)
 
         # Remaining enemies
-        pt = self.mapGrid.greatestDistance(ptPoint, grid=vacant, tol=10)
-        grid = self.mapGrid.bfs(pt, 30, vacant, d=10)
+        tol = 10
+        while True:
+            pt = self.mapGrid.greatestDistance(ptPoint, grid=vacant, tol=tol)
+            grid = self.mapGrid.bfs(pt, 30, vacant, d=10)
+            if len(grid) > len(self.enemiesAnywhere):
+                break
+            tol += 1
         self.setPositions(grid, self.enemiesAnywhere)
         vacant = vacant.difference(grid)
 
@@ -6829,8 +6862,9 @@ class MS21S_X48_P2(Level):
         vacant = set(self.mapGrid.getAccessible(13, 13))
 
         # Set Idore's grid and starting point
+        candidates = sorted(vacant)
         while True:
-            X, Y = random.sample(vacant, 1)[0]
+            X, Y = random.sample(candidates, 1)[0]
             grid = [(X+i, Y+j) for i in range(-3, 3) for j in range(-3, 4)]
             boss1 = sorted(vacant.intersection(grid))
             if len(boss1) >= 35:
@@ -6936,8 +6970,7 @@ def initLevels(pak):
 
     return levels
 
-
-def randomizeLevelInits(levels, seed, test=False):
+def randomizeLevelInits(levels, seed, pak, test=False):
     # If an undiscovered bug happens, just reinitialize and try again on a different seed.
     # High time just as safety net for slow computers.
     # The ENTIRE for loop is doable in <1 second in my testing.
@@ -6946,19 +6979,20 @@ def randomizeLevelInits(levels, seed, test=False):
         while True:
             n += 1
             random.seed(seed+i+n)
-            if test:
+            # if test:
+            #     signal.signal(signal.SIGALRM, level.random)
+            #     signal.alarm(10)
+            if 'linux' in sys.platform :
                 signal.signal(signal.SIGALRM, level.random)
                 signal.alarm(10)
             try:
                 level.random()
                 level.checkAllEnemiesMoved()
+                level.checkUnitLocationConflict()
                 print(level.__class__.__name__, 'passed')
             except Exception as e:
                 print(level.__class__.__name__, e)
-                level.__init__(pak)
                 if test: raise Exception('Failed')
+                level.__init__(pak)
             else:
                 break
-
-    if test:
-        assert i == len(levels), f"Failed on {level.__class__.__name__}"

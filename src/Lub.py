@@ -641,6 +641,40 @@ class Table:
         instr.C = 0x100 + self.chunk.getConstIdx(value)
         self.instrList.append(instr)
 
+    # Remove table from a "list"
+    def deleteEntry(self, index):
+        assert self.instrList[0].name == 'NEWTABLE'
+        assert self.instrList[0].B > 0
+        assert self.instrList[0].C == 0
+        numTables = self.instrList[0].B
+        self.instrList[0].B -= 1
+        if self.instrList[1].name == 'NEWTABLE':
+            i = 0
+            j = 1
+            while True:
+                instr = self.instrList[i+j]
+                assert instr.name == 'NEWTABLE'
+                assert instr.B == 0
+                assert instr.C > 0
+                if i == index:
+                    self.instrList.pop(i+j) # NEWTABLE
+                    for _ in range(instr.C):
+                        self.instrList.pop(i+j) # SETTABLE
+                    while i < numTables-1:
+                        self.instrList[i+j].A -= 1
+                        n = self.instrList[i+j].C
+                        for _ in range(n):
+                            j += 1
+                            self.instrList[i+j].A -= 1
+                        i += 1
+                    assert i+j == len(self.instrList)-1, f"{i},{j},{i+j},{len(self.instrList)}"
+                    assert self.instrList[-1].name == 'SETLIST'
+                    self.instrList[-1].B -= 1
+                    break
+                else:
+                    j += instr.C
+                i += 1
+
     def getInstructions(self):
         instructions = []
         for instr in self.instrList:
@@ -649,20 +683,6 @@ class Table:
             else:
                 instructions += instr.getInstructions()
         return instructions
-
-    def addEntry(self, key, value):
-        assert type(key) == str
-        if type(value) == int:
-            value = float(int)
-        assert type(value) == float
-        assert self.instrList[0].name == 'NEWTABLE'
-        assert self.instrList[0].B == 0
-        self.instrList[0].C += 1
-        assert self.instrList[-1].name == 'SETTABLE'
-        instr = deepcopy(self.instrList[-1])
-        instr.B = 0x100 + self.chunk.getConstIdx(key)
-        instr.C = 0x100 + self.chunk.getConstIdx(value)
-        self.instrList.append(instr)
 
     def _getTable(self, instrList):
         instr = next(instrList)
@@ -967,8 +987,8 @@ class Lub:
         header = self.buildHeader()
         chunk = self.topLevel.build(self.vanilla[len(header):])
         newlub = header + chunk
-        idx = self.diff_idx(newlub, self.vanilla)
         self.pak.updateData(self.filename, newlub)
+        # idx = self.diff_idx(newlub, self.vanilla)
         # assert newlub == self.vanilla, f"{self.filename} is not reproduced. First error at idx {idx}"
 
     def printInstr(self, filename):
@@ -979,35 +999,3 @@ class Lub:
 
     def print(self):
         self.topLevel.print()
-
-
-class TestLub(Lub):
-    def __init__(self, filename):
-        self.filename = filename
-        with open(filename, 'rb') as f:
-            self.lub = File(f.read())
-        self.vanilla = bytearray(self.lub.data.getbuffer())
-        self.loadHeader()
-        self.loadFunction()
-        self.chunkList = self.listAllChunks(self.topLevel)
-
-    def update(self):
-        header = self.buildHeader()
-        chunk = self.topLevel.build(self.vanilla[len(header):])
-        return header + chunk
-
-    def dumpNew(self):
-        newlub = self.update()
-        output = self.filename.replace('.lub', '_new.lub')
-        with open(output,'wb') as file:
-            file.write(newlub)
-
-
-def main():
-    filename = sys.argv[1]
-    lub = TestLub(filename)
-    lub.print()
-
-
-# if __name__=='__main__':
-#     main()

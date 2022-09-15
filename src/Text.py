@@ -7,6 +7,9 @@ class Text:
         self.uasset = self.data.uasset
         self.text = self.data.getDataTable()
 
+    def getText(self, key):
+        return self.text[key]['Text'].string
+
     def setText(self, key, string):
         self.text[key]['Text'].string = string
 

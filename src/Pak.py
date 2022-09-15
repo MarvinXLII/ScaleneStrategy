@@ -71,7 +71,7 @@ class Entry:
         return sizes
 
     def extract(self):
-        assert not self._extracted, "Already extracted!"
+        # assert not self._extracted, "Already extracted!"
         self.pak.data.seek(self.offset)
         assert self.pak.readUInt64() == 0
         assert self.pak.readUInt64() == self.compSize

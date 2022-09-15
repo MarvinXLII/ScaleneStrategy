@@ -11,10 +11,11 @@ mods brick your Switch, etc.
 
 See the executable for full descriptions of options. Options include:
 
+* Random support skills for playable units (only works for New Game)
 * Shuffling when playable units join your party
 * Random unit/enemy starting positions in battles
 * Shuffled unit/enemy intial turn order in battles
-* Shuffled weather and time of day in battles.
+* Shuffled weather and time of day in battles
 * Random item costs in shops
 * Random number of items in shops
 * Shuffled class promotion items
@@ -24,6 +25,7 @@ See the executable for full descriptions of options. Options include:
 Quality of life options include:
 
 * Reduced conviction requirements for voting
+* Make Serenoa optional in Main Story battles
 
 
 ## USAGE
@@ -43,6 +45,11 @@ folders on your Switch's SD card.
   those you have to keep alive like Dragan, are not always well
   placed.
 
+* Some pre-battle cutscenes can be affected by randomizing starting
+  unit and enemy positions in battles. It can look bad, but it won't
+  crash the game or interfere with exploration.
+
 * Some sprite animations had to be modified to allow for shuffling
-  sprites. Examples include sprites standing rather than kneeling, and
-  dummy sprites during fighting cutscenes.
+  sprites, e.g. not all sprites can kneel and will remain
+  standing. You'll also see dummy sprites from time to time, typically
+  sprites during fighting cutscenes.

@@ -10,7 +10,7 @@ import glob
 import sys
 sys.path.append('src')
 from Utility import get_filename
-from randomizer import Switch
+from Randomizer import Switch
 from Pak import Pak
 
 MAIN_TITLE = f"Scalene Strategy v{RELEASE}"
@@ -53,7 +53,7 @@ class CreateToolTip(object):
 class GuiApplication:
     def __init__(self, settings=None):
         self.master = tk.Tk()
-        self.master.geometry('690x500')
+        self.master.geometry('670x530')
         self.master.title(MAIN_TITLE)
         self.initialize_gui()
         self.initialize_settings(settings)
@@ -94,7 +94,7 @@ class GuiApplication:
         self.buildToolTip(pakButton,
                           """
 Input the game's file "Newera-Switch.pak".\n
-This randomizer is only compatible with v1.0.3.
+This randomizer is only compatible with the Switch release v1.0.3.
                           """
                           , wraplength=500)
 
@@ -232,8 +232,8 @@ This randomizer is only compatible with v1.0.3.
 
         self.clearBottomLabels()
         if self.pak.shaIndex == int('0xf97dad07a9dd97729d0af06d3c47e14266ea7a96', 0).to_bytes(20, byteorder='big'):
-            self.bottomLabel('This pak file is for the v1.0.2 game.','red',0)
-            self.bottomLabel('The randomizer is only compatible with v1.0.3.','red',1)
+            self.bottomLabel('This pak file is for the Switch release v1.0.2 game.','red',0)
+            self.bottomLabel('The randomizer is only compatible with release v1.0.3.','red',1)
         else:
             self.bottomLabel('This pak file is incompatible with the randomizer.','red',0)
         return False
@@ -276,11 +276,10 @@ This randomizer is only compatible with v1.0.3.
             return
         for key, value in settings.items():
             if key == 'pak':
-                if os.path.isfile(value):
-                    loaded = self.loadPakFile(value)
-                    if not loaded:
-                        self.clearBottomLabels()
-                        continue
+                loaded = self.loadPakFile(value)
+                if not loaded:
+                    self.clearBottomLabels()
+                continue
             if key == 'release':
                 continue
             if key not in self.settings:

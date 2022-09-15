@@ -1,0 +1,773 @@
+{
+  "Chapter I: A Young Hawk Soars": null
+  "Chapter II: To Arms, Brave Warriors":
+  {
+    Worth:
+    {
+      min: 50
+      max: 450
+    }
+    Places:
+    {
+      "Whiteholm Castle: Gardens":
+      [
+        A0_EX_Garden_R_OTH_ms02_x02.umap
+      ]
+      "Wolffort Castle Town: Streets":
+      [
+        A1_EX_Street_R_OTH_ms02_x02.umap
+      ]
+      "Wolffort Castle Town: Residence":
+      [
+        A1_IN_Room000_R_OTH__ms02_x02.umap
+        A1_IN_Room001_R_OTH_ms02_x02.umap
+        A1_IN_Room003_R_OTH_ms02_x02.umap
+      ]
+    }
+  }
+  "Chapter III, Part I: Whither the River Flows": null
+  "Chapter III, Part II: A Land of Snow and Ice":
+  {
+    Worth:
+    {
+      min: 50
+      max: 3000
+    }
+    Places:
+    {
+      "City Streets":
+      [
+        B0_EX_Street_R_OTH_ms03_x03.umap
+      ]
+      "Aesfrosti Archives":
+      [
+        B0_IN_Library_R_OTH_ms03_x03.umap
+      ]
+      "City Streets: Norzelia Consortium":
+      [
+        B0_IN_Room000_R_OTH_ms03_x03.umap
+      ]
+      "City Streets: Residence":
+      [
+        B0_IN_Room001_R_OTH_ms03_x03.umap
+        B0_IN_Room002_R_OTH_ms03_x03.umap
+      ]
+    }
+  }
+  "Chapter III, Part II: A Land of Sand and Sun":
+  {
+    Worth:
+    {
+      min: 50
+      max: 3000
+    }
+    Places:
+    {
+      "City Streets":
+      [
+        C0_EX_Street_R_OTH_ms03_x04.umap
+      ]
+      "Ministry of Medicine":
+      [
+        C0_IN_Medical_R_OTH_ms03_x04.umap
+      ]
+      "City Streets: Residence":
+      [
+        C0_IN_Room000_R_OTH_ms03_x04.umap
+        C0_IN_Room001_R_OTH_ms03_x04.umap
+        C0_IN_Room002_R_OTH_ms03_x04.umap
+      ]
+    }
+  }
+  "Chapter IV: A New Dawn":
+  {
+    Worth:
+    {
+      min: 75
+      max: 6000
+    }
+    Places:
+    {
+      "Grand Norzelian Mines: Tunnel":
+      [
+        A0_IN_Mine_R_OTH_ms04_x05.umap
+      ]
+      "Rosellan Village":
+      [
+        A1_EX_Village_R_OTH_ms04_x05.umap
+      ]
+      "Rosellan Village: Jerrom's Abode":
+      [
+        A1_IN_VillageRoom001_R_OTH_ms04_x05.umap
+      ]
+    }
+  }
+  "Chapter V: Encroaching Darkness":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Whiteholm Castle: Gardens":
+      [
+        A0_EX_Garden_R_OTH_ms05_x06.umap
+      ]
+    }
+  }
+  "Chapter VI: Remember Me":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Whiteholm Bridge":
+      [
+        A0_EX_Bridge_R_OTH_ms06_x07.umap
+      ]
+    }
+  }
+  "Chapter VII, Part I: A Soul upon the Scales":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Wolffort Castle Town: Residence":
+      [
+        A1_IN_Room000_R_OTH_ms07_h01.umap
+        A1_IN_Room002_R_OTH_ms07_h01.umap
+        A1_IN_Room003_R_OTH_ms07_h01.umap
+        A1_IN_Room004_R_OTH_ms07_h01.umap
+        A1_IN_Room005_R_OTH_ms07_h01.umap
+      ]
+      "Wolffort Castle Town: Streets":
+      [
+        A1_EX_Street_R_OTH_ms07_h01_part_vote.umap
+      ]
+    }
+  }
+  "Chapter VII, Part II: Not a Word, My Friend":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Wolffort Castle Town: Streets":
+      [
+        A1_EX_Street_R_OTH_ms07_x08.umap
+      ]
+      "Wolffort Castle Town: Residence":
+      [
+        A1_IN_Room000_R_OTH_ms07_x08.umap
+        A1_IN_Room001_R_OTH_ms07_x08.umap
+        A1_IN_Room002_R_OTH_ms07_x08.umap
+        A1_IN_Room003_R_OTH_ms07_x08.umap
+        A1_IN_Room004_R_OTH_ms07_x08.umap
+        A1_IN_Room005_R_OTH_ms07x08.umap
+      ]
+    }
+    Skip: {
+      "A1_IN_Room003_R_OTH_ms07_x08.umap": [6]
+    }
+  }
+  "Chapter VII, Part II: Fate in Flames":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Falkes Streets":
+      [
+        A3_EX_Street_R_OTH_ms07_x09.umap
+      ]
+      "Falkes Streets: Residence":
+      [
+        A3_IN_Room002_R_OTH_ms07_x09.umap
+        A3_IN_Room003_R_OTH_ms07_x09.umap
+      ]
+    }
+  }
+  "Chapter VIII, Part I: The Weather Vane":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Wolffort Castle Town: Streets":
+      [
+        A1_EX_Street_R_OTH_ms08a_h01.umap
+      ]
+      "Wolffort Castle Town: Residence":
+      [
+        A1_IN_Room001_R_OTH_ms08a_h01.umap
+        A1_IN_Room004_R_OTH_ms08a_h01.umap
+        A1_IN_Room005_R_OTH_ms08a_h01.umap
+      ]
+    }
+  }
+  "Chapter VIII, Part I: Weather the Storm":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Castle Wolffort: Assembly Hall":
+      [
+        A1_IN_AsmHall_R_OTH_ms8b_h01.umap
+      ]
+    }
+  }
+  "Chapter VIII, Part II: Sleep with One Eye Open":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Telliore Streets":
+      [
+        A2_EX_Street_R_OTH_ms08_x10.umap
+      ]
+      "Telliore Streets: Residence":
+      [
+        A2_IN_Room000_R_OTH_ms08_x10.umap
+        A2_IN_Room001_OTH_ms08_x10.umap
+        A2_IN_Room002_R_OTH_ms08_x10.umap
+        A2_IN_Room003_R_OTH_ms08_x10.umap
+      ]
+    }
+  }
+  "Chapter VIII, Part II: Parting Ways":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Wolffort Castle Town: Gates":
+      [
+        A1_EX_Gate_R_OTH_ms08_x11.umap
+      ]
+    }
+  }
+  "Chapter VIII, Part II: As the Earth Rages":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Wolffort Harbor":
+      [
+        A1_EX_Harbour01_R_OTH_ms08_x12.umap
+      ]
+    }
+  }
+  "Chapter VIII, Part II: In the Eye of the Storm":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Wolffort Harbor":
+      [
+        A1_EX_Harbour01_R_OTH_ms08_x13.umap
+      ]
+    }
+  }
+  "Chapter VIII, Part III: Light and Shadow": null
+  "Chapter VIII, Part III: Of Hearts, Words, and Deeds": null
+  "Chapter IX, Part I: Dwindling Light":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Wolffort Castle Town: Streets":
+      [
+        A1_EX_Street_R_OTH_ms09_h01.umap
+      ]
+      "Wolffort Castle Town: Residence":
+      [
+        A1_IN_Room001_R_OTH_ms09_h01.umap
+        A1_IN_Room004_R_OTH_ms09_h01.umap
+      ]
+    }
+  }
+  "Chapter IX, Part II: March of the Smugglers":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Abandoned Village":
+      [
+        A1_EX_Ruins_R_OTH_ms09_x14.umap
+      ]
+    }
+  }
+  "Chapter IX, Part II: To Desert's End":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Valley of Dunes":
+      [
+        C0_EX_Border_R_OTH_ms09_x15.umap
+      ]
+    }
+  }
+  "Chapter X, Part I: Beneath a Frigid Sky":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      Twinsgate:
+      [
+        B0_EX_Fortress_R_OTH_ms10a_h01.umap
+      ]
+      "Twinsgate: Parlor":
+      [
+        B0_IN_FortressGuest_R_OTH_ms10a_h01.umap
+      ]
+    }
+  }
+  "Chapter X, Part I: In the Shadows of Suspicion":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "City Streets":
+      [
+        C0_EX_Street_R_OTH_ms10b_h01.umap
+      ]
+      "City Streets: Residence":
+      [
+        C0_IN_Room001_R_OTH_ms10b_h01.umap
+        C0_IN_Room002_R_OTH_ms10b_h01.umap
+      ]
+    }
+  }
+  "Chapter X, Part II: A Treacherous Soul":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      Twinsgate:
+      [
+        B0_EX_Fortress_R_OTH_ms10a_x16.umap
+      ]
+    }
+  }
+  "Chapter X, Part II: Enter the Arena": null
+  "Chapter X, Part II: The Carelessness of Men": null
+  "Chapter X, Part II: Ask Me Naught": null
+  "Chapter X, Part III: The Voice That Calls Us": null
+  "Chapter X, Part III: The Reward for Betrayal": null
+  "Chapter XI, Part I: Oppressions Under the Sun":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "The Source":
+      [
+        C0_EX_Saltlake_R_OTH_ms11_h01.umap
+      ]
+      "Rosellan Village":
+      [
+        A1_EX_Village_R_OTH_ms12_h01.umap
+      ]
+    }
+  }
+  "Chapter XI, Part II: The Bloodstained Conscience": null
+  "Chapter XI, Part II: To the Bitter End": null
+  "Chapter XII: Defiance and Despondence": null
+  "Chapter XII: In the Still of the Night":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Rosellan Village":
+      [
+        A1_EX_Village_R_OTH_ms12_x23.umap
+      ]
+      "Rosellan Village: Elder's Abode":
+      [
+        A1_IN_VillageRoom000_OTH_ms12_x23.umap
+      ]
+      "Rosellan Village: Jerrom's Abode":
+      [
+        A1_IN_VillageRoom001_R_OTH_ms12_x23.umap
+      ]
+    }
+  }
+  "Chapter XIII, Part I: Our Time Has Come":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Wolffort Castle Town: Streets":
+      [
+        A1_EX_Street_R_OTH_ms13_h01.umap
+      ]
+      "Wolffort Castle Town: Residence":
+      [
+        A1_IN_Room000_R_OTH_ms13_h01.umap
+        A1_IN_Room003_R_OTH_ms13_h01.umap
+      ]
+    }
+  }
+  "Chapter XIII, Part II: Waves of Change":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Telliore Streets":
+      [
+        A2_EX_Street_R_OTH_ms13_x24.umap
+      ]
+      "Telliore Streets: Residence":
+      [
+        A2_IN_Room000_R_OTH_ms13_x24.umap
+        A2_IN_Room002_R_OTH_ms13_x24.umap
+        A2_IN_Room003_R_OTH_ms13_x24.umap
+      ]
+    }
+  }
+  "Chapter XIII, Part II: Time to Say Goodbye":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Whiteholm Harbor":
+      [
+        A0_EX_Harbour_R_OTH_ms13x25.umap
+      ]
+      "Wolffort Harbor":
+      [
+        A1_EX_Harbour_R_OTH_ms13_x25.umap
+      ]
+    }
+  }
+  "Chapter XIII, Part II: Born of Strife and Sadness":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Whiteholm Bridge":
+      [
+        A0_EX_Bridge_R_OTH_ms13_x26.umap
+      ]
+    }
+  }
+  "Chapter XIV, Part I: A Steep Cost": null
+  "Chapter XIV, Part I: Vengeance Burns Within Me": null
+  "Chapter XIV, Part I: For You, My Heart": null
+  "Chapter XIV, Part II: Glory Shall Find You": null
+  "Chapter XV, Part I: A Banner's Worth":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Whiteholm Castle: Gardens":
+      [
+        A0_EX_Garden_R_OTH_ms15_h01.umap
+      ]
+      "Whiteholm Castle: Hall":
+      [
+        A0_IN_Hall_R_OTH_ms15_h01.umap
+      ]
+    }
+  }
+  "Chapter XV, Part II: When Our Paths Part":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Castle Wolffort: Hall":
+      [
+        A1_IN_Hall_R_OTH_ms15_x30.umap
+      ]
+    }
+  }
+  "Chapter XV, Part II: Were I King":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "City Streets":
+      [
+        A0_EX_Street_R_OTH_ms15_x31.umap
+      ]
+    }
+  }
+  "Chapter XV, Part II: In the Wake of a Dream":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Rosellan Village":
+      [
+        A1_EX_Village_R_OTH_ms15_x32.umap
+      ]
+      "Rosellan Village: Elder's Abode":
+      [
+        A1_IN_VillageRoom000_R_OTH_ms15_x32.umap
+      ]
+      "Rosellan Village: Jerrom's Abode":
+      [
+        A1_IN_VillageRoom001_R_OTH_ms15_x32.umap
+      ]
+    }
+  }
+  "Chapter XV, Part II: The Trot of Thieves":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Rosellan Village":
+      [
+        A1_EX_Village_R_OTH_ms15_x33.umap
+      ]
+      "Rosellan Village: Elder's Abode":
+      [
+        A1_IN_VillageRoom000_R_OTH_ms15_x33.umap
+      ]
+    }
+  }
+  "Chapter XV, Part III: Fate": null
+  "Chapter XVI: Sleep, My Friend":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Grand Norzelian Mines: Tunnel":
+      [
+        A0_IN_Mine34_R_OTH_ms16_x34.umap
+      ]
+    }
+  }
+  "Chapter XVII, Part II: Those of Aspiration": null
+  "Chapter XVII, Part II: Of Lords and Lineages": null
+  "Chapter XVII, Part II: A River of Tears": null
+  "Chapter XVII, Part II: One Last Request": null
+  "Chapter XVIII: Harden Thy Heart":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Hyzantian Sands":
+      [
+        C0_EX_Field2_R_OTH_ms18b_x39.umap
+      ]
+    }
+  }
+  "Chapter XVIII: Begone, Shadow of Sadness":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      Twinsgate:
+      [
+        B0_EX_Fortress40_R_OTH_ms18_x40.umap
+      ]
+      "Abandoned Village":
+      [
+        A1_EX_Ruins_R_OTH_ms18rx40.umap
+      ]
+    }
+  }
+  "Chapter XVIII: From the Abyss":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Ministry of Medicine":
+      [
+        C0_IN_Medical_R_OTH_ms18_x41.umap
+      ]
+    }
+  }
+  "Chapter XVIII, Part I: Of Fire and Blood":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Wolffort Castle Town: Streets":
+      [
+        A1_EX_Street_R_OTH_ms17s_x38.umap
+      ]
+      "Wolffort Castle Town: Residence":
+      [
+        A1_IN_Room002_R_OTH_ms17s_x38.umap
+        A1_IN_Room004_R_OTH_mms17s_x38.umap
+        A1_IN_Room005_R_OTH_ms17s_x38.umap
+      ]
+    }
+  }
+  "Final Chapter: Dance of the Automaton": null
+  "Final Chapter: The Bell Tolls for No One": null
+  "Final Chapter: Blessed Freedom": null
+  "Chapter XVIII, Part II: Bound by Sorrow":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Abandoned Village":
+      [
+        A1_EX_Ruins_R_OTH_ms18sx42.umap
+      ]
+    }
+  }
+  "Chapter XVIII, Part III: For Freedom":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "The Source":
+      [
+        C0_EX_Saltlake_R_OTH_ms19s_x46.umap
+      ]
+    }
+  }
+  "Chapter XIX: The Fortress That Is Faith":
+  {
+    Worth:
+    {
+      min: 0
+      max: 0
+    }
+    Places:
+    {
+      "Hyzantian Sands":
+      [
+        C0_EX_Field2_R_OTH_ms20s_x47.umap
+      ]
+    }
+  }
+  "Final Chapter: For Norzelia": null
+}
