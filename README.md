@@ -1,7 +1,7 @@
 ## ABOUT
 
 This is a randomizer for Triangle Strategy. It is only compatible with
-v1.0.3.
+the Switch release v1.0.3.
 
 Play this at your own risk. I bear no responsibility if you or these
 mods brick your Switch, etc.
@@ -13,9 +13,10 @@ See the executable for full descriptions of options. Options include:
 
 * Random support skills for playable units (only works for New Game)
 * Shuffling when playable units join your party
-* Random unit/enemy starting positions in battles
-* Shuffled unit/enemy intial turn order in battles
+* Random playable/enemy unit starting positions in battles
+* Shuffled playable/enemy unit intial turn order in battles
 * Shuffled weather and time of day in battles
+* Random items found during exploration
 * Random item costs in shops
 * Random number of items in shops
 * Shuffled class promotion items
@@ -40,6 +41,11 @@ folders on your Switch's SD card.
 
 ## KNOWN ISSUES AND LIMITATIONS
 
+* The skills of your playable units seems to be stored in save data
+  and only updated when you give a unit a class promotion. This is why
+  random passive skills are only suitable for New Games. Don't select
+  this option if you plan on playing New Game Plus.
+
 * Deathless runs are not always possible if randomizing starting unit
   positions and turns orders in battles. Ally placements, aside from
   those you have to keep alive like Dragan, are not always well
@@ -52,4 +58,4 @@ folders on your Switch's SD card.
 * Some sprite animations had to be modified to allow for shuffling
   sprites, e.g. not all sprites can kneel and will remain
   standing. You'll also see dummy sprites from time to time, typically
-  sprites during fighting cutscenes.
+  during fighting cutscenes, and various other issues.

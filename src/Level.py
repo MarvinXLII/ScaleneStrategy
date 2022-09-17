@@ -1,17 +1,15 @@
 import random
-# from re import S
 from Lub import Lub
 import hjson
 import os
 from Assets import UAsset, Data
 from Utility import Byte, File
-from copy import deepcopy
 from TileMap import MAP
 from Positions import POSITION, PLAYERPOSITION, ENEMYPOSITION, SPAWNPOSITION
 from math import log10, floor
 import sys
-if 'linux' in sys.platform:
-    import signal
+from threading import Thread
+from time import time
 
 # TODO: Clean up this mess.
 
@@ -45,6 +43,15 @@ class Level:
 
         self.isRandomized = False
 
+    def clean(self):
+        del self.battle
+        del self.battleCommon
+        del self.battleScene
+        del self.mapObj
+        del self.mapGrid
+        del self.enemyPositions
+        del self.pcPositions
+
     def printEnemyPoints(self):
         pts = [(e.X, e.Y) for e in self.enemyPositions]
         return pts
@@ -62,15 +69,15 @@ class Level:
             if not en.moved:
                 print("Enemy", i, "is still at point", en.X, ",", en.Y)
         if not allMoved:
-            sys.exit(f"{self.__class__.__name__}: Not all enemies moved!")
+            raise Exception('Not all enemies moved')
         return allMoved
 
     def checkUnitLocationConflict(self):
         pc = set([(p.X, p.Y) for p in self.pcPositions])
         en = set([(e.X, e.Y) for e in self.enemyPositions])
-        assert len(pc) == len(self.pcPositions), f"{self.__class__.__name__}: {len(pc)}     {len(self.pcPositions)}"
-        assert len(en) == len(self.enemyPositions), f"{self.__class__.__name__}: {len(en)}     {len(self.enemyPositions)}"
-        assert pc.isdisjoint(en), list(filter(lambda x: x in en, pc))
+        assert len(pc) == len(self.pcPositions), f"PC units overlap {len(pc)} {len(self.pcPositions)}"
+        assert len(en) == len(self.enemyPositions), f"Enemy units overlap {len(en)}     {len(self.enemyPositions)}"
+        assert pc.isdisjoint(en), f"PC and enemy units overlap: {list(filter(lambda x: x in en, pc))}"
 
     def update(self):
         # Check for errors with PC and enemy locations
@@ -6970,29 +6977,78 @@ def initLevels(pak):
 
     return levels
 
+
+# Used to prevent getting stuck on a level randomizer.
+# These events are EXTREMELY rare, and might not even happend anymore.
+# Kept just in case.
+class LevelThread(Thread):
+    def __init__(self, level):
+        Thread.__init__(self)
+        self.level = level
+        self._done = None
+        self._success = None
+        self._exception = None
+        self.daemon = True
+
+    def run(self):
+        try:
+            self.level.random()
+            self.level.checkAllEnemiesMoved()
+            self.level.checkUnitLocationConflict()
+            self._success = True
+            self._exception = None
+        except Exception as e:
+            self._success = False
+            self._exception = e
+        self._done = True
+
+    def timer(self, tmax):
+        total = 0
+        time_ref = time()
+        while not self.done and total < tmax:
+            total = time() - time_ref
+
+    @property
+    def done(self):
+        return self._done
+
+    @property
+    def success(self):
+        return self._success
+
+    @property
+    def exception(self):
+        return self._exception
+
+
 def randomizeLevelInits(levels, seed, pak, test=False):
     # If an undiscovered bug happens, just reinitialize and try again on a different seed.
+    # 1000+ tests and no errors found, so it might not even be necessary.
     # High time just as safety net for slow computers.
     # The ENTIRE for loop is doable in <1 second in my testing.
     for i, level in enumerate(levels):
+        random.seed(seed+i)
         n = 0
         while True:
-            n += 1
-            random.seed(seed+i+n)
-            # if test:
-            #     signal.signal(signal.SIGALRM, level.random)
-            #     signal.alarm(10)
-            if 'linux' in sys.platform :
-                signal.signal(signal.SIGALRM, level.random)
-                signal.alarm(10)
-            try:
+            lt = LevelThread(level)
+            lt.start()
+            lt.timer(10)
+            if lt.success:
+                print(level.__class__.__name__, 'passed')
+                break
+            elif lt.exception:
+                print(level.__class__.__name__, 'failed:', lt.exception)
+            else:
+                print(level.__class__.__name__, 'failed:', 'Exceeded time')
+            # Reinitialize to try again on a different seed
+            # and ensure thread is dead
+            while lt.is_alive():
+                level.clean()
+                level.__init__(pak)
+            if test:
+                random.seed(seed+i)
                 level.random()
                 level.checkAllEnemiesMoved()
                 level.checkUnitLocationConflict()
-                print(level.__class__.__name__, 'passed')
-            except Exception as e:
-                print(level.__class__.__name__, e)
-                if test: raise Exception('Failed')
-                level.__init__(pak)
-            else:
-                break
+            n += 1
+            random.seed(seed+i+n)

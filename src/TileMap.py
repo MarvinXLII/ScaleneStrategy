@@ -350,8 +350,8 @@ class TileMap:
         dh = self.getHeight(i, j) - h
         return abs(dh) <= tol
 
-    def getHeight(self, i, j):
-        if not self.isValid(i, j):
+    def getHeight(self, i, j, validCheck=True):
+        if validCheck and not self.isValid(i, j):
             return 1e9
         if i < 0 or i >= self.nx or j < 0 or j >= self.ny:
             return 1e9
@@ -873,12 +873,12 @@ class TileMap:
                     continue
 
                 # First pick a neighbor to use
-                dh1 = h - self.getHeight(*neighbor)
-                isPos = dh1 > 0
+                dh1 = self.getHeight(*neighbor, validCheck=False) - h
+                isNeg = dh1 < 0 # Must be negative to allow for jumping over invalid or deep tile
                 dh2 = abs(h - self.getHeight(*neighbor2))
-                if abs(dh1) <= 2 and neighbor in grid:
+                if abs(dh1) <= 2 and neighbor in grid and self.isValid(*neighbor):
                     n = neighbor
-                elif isPos and dh2 <= 1 and neighbor2 in grid: # Can jump across gap
+                elif isNeg and dh2 <= 1 and neighbor2 in grid and self.isValid(*neighbor2): # Can jump across gap
                     n = neighbor2
                 else:
                     continue

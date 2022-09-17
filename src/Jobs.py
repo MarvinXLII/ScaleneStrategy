@@ -185,10 +185,13 @@ class Jobs:
                     level = str(data[f'iLearnableLevel{i}'].value).rjust(3, ' ')
                     abilityKey = data[f'LearnableAbility{i}'].name
                     if abilityKey[:4] == 'None': continue
-                    abilityName = self.namesForPrinting[abilityKey]['name'].ljust(30, ' ')
+                    abilityName = self.namesForPrinting[abilityKey]['name'].ljust(35, ' ')
                     abilityHelp = self.namesForPrinting[abilityKey]['help']
                     abilityKey = abilityKey.ljust(38, ' ')
-                    stringList.append([level, abilityName, abilityKey, abilityHelp])
+                    if '[Passive Skill]' in abilityHelp:
+                        stringList.append([level, abilityName, '(Passive Skill)'])#, abilityKey, abilityHelp])
+                    else:
+                        stringList.append([level, abilityName])#, abilityKey, abilityHelp])
                 if stringList:
                     for k, v in k2n.items():
                         if k in key:

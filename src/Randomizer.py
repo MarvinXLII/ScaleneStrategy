@@ -103,6 +103,12 @@ class Rando:
         if self.settings['shuffle-class-rank-items']:
             self.wpn.shuffleMaterial()
 
+        # Exploration
+        self.seed.setSeed()
+        if self.settings['random-exploration-items']:
+            for chapter in self.research:
+                chapter.randomItems()
+
         # Weather and wind
         self.seed.setSeed()
         if self.settings['shuffle-battle-weather']:
@@ -113,6 +119,15 @@ class Rando:
         # self.seed.setSeed()
         if self.settings['shuffle-battle-time']:
             self.mapcfg.shuffleTimes()
+
+        # Battle Placement
+        # MUST be done before everything else involving level lubs
+        # on rare chance a level gets reinitialized
+        if self.settings['random-battle-unit-placement']:
+            if 'testing' in self.settings:
+                randomizeLevelInits(self.levels, self.settings['seed'], self.pak, test=self.settings['testing'])
+            else:
+                randomizeLevelInits(self.levels, self.settings['seed'], self.pak, test=False)
 
         # Swap playable units
         self.seed.setSeed()
@@ -128,22 +143,12 @@ class Rando:
                 self.units.swapSprites()
                 self.text.swapSpriteNames(self.units)
 
-        if self.settings['random-battle-unit-placement']:
-            if 'testing' in self.settings:
-                randomizeLevelInits(self.levels, self.settings['seed'], self.pak, test=self.settings['testing'])
-            else:
-                randomizeLevelInits(self.levels, self.settings['seed'], self.pak, test=False)
-
         # Shuffle starting turn order
         self.seed.setSeed()
         if self.settings['shuffle-battle-initial-charge-times']:
             for level in self.levels:
                 level.randomTimes()
 
-        self.seed.setSeed()
-        if self.settings['random-exploration-items']:
-            for chapter in self.research:
-                chapter.randomItems()
 
     def qualityOfLife(self):
         # Voting

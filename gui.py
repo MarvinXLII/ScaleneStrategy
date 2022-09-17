@@ -20,18 +20,20 @@ class CreateToolTip(object):
     '''
     create a tooltip for a given widget
     '''
-    def __init__(self, widget, text='widget info', wraplength=200):
+    def __init__(self, widget, text='widget info', wraplength=200, dx=25, dy=25):
         self.widget = widget
         self.text = text
         self.widget.bind("<Enter>", self.enter)
         self.widget.bind("<Leave>", self.close)
         self.wraplength = wraplength
+        self.dx = dx
+        self.dy = dy
 
     def enter(self, event=None):
         x = y = 0
         x, y, cx, cy = self.widget.bbox("insert")
-        x += self.widget.winfo_rootx() + 25
-        y += self.widget.winfo_rooty() + 20
+        x += self.widget.winfo_rootx() + self.dx
+        y += self.widget.winfo_rooty() + self.dy
         # creates a toplevel window
         self.tw = tk.Toplevel(self.widget)
         # Leaves only the label and removes the app window
@@ -46,8 +48,10 @@ class CreateToolTip(object):
         label.pack(ipadx=1)
 
     def close(self, event=None):
-        if self.tw:
-            self.tw.destroy()
+        self.tw.destroy()
+
+        # if self.tw:
+        #     self.tw.destroy()
 
 
 class GuiApplication:
@@ -259,7 +263,7 @@ This randomizer is only compatible with the Switch release v1.0.3.
 
     def buildToolTip(self, button, field, wraplength=200):
         if isinstance(field, str):
-            CreateToolTip(button, field, wraplength)
+            CreateToolTip(button, field, wraplength, dx=25, dy=35)
         if isinstance(field, dict):
             if 'help' in field:
                 CreateToolTip(button, field['help'])
