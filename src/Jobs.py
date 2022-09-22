@@ -14,6 +14,8 @@ class Jobs:
         self.ability = Data(pak, 'GOP_Battle_Ability.uasset')
         self.abilityData = self.ability.getDataTable()
         self.abilityText = Text(pak, 'en/GOP_Text_Ability.uasset')
+        self.atkParam = Data(pak, 'GOP_Battle_AttackParam.uasset')
+        self.atkParamData = self.atkParam.getDataTable()
 
         # Print all supports and commands
         self.namesForPrinting = {}
@@ -58,13 +60,16 @@ class Jobs:
             if k in self.weightsToData:
                 self.weightsToData[k].append(key)
 
+        with open(get_filename('json/counterAnimations.json'), 'r') as file:
+            self.counterAnimations = hjson.load(file)
+
+
     def randomSupport(self):
         # Sort orders by weights
         x = list(self.abilityWeights.items())
         random.shuffle(x)
         keys, _ = zip(*sorted(x, key=lambda xi: sum(xi[1])))
         avail = {k:True for k in self.abilityWeightKeys}
-        unitsWithCounter = {k:None for k in self.abilityWeights}  # TODO: update animations, may need this stored data if done elsewhere
         counterKeys = {a:False for a in self.abilityWeightKeys}
         counterKeys['BATTLE_ABILITY_COUNTER_FORM'] = True
         counterKeys['BATTLE_ABILITY_PHYSICS_COUNTER'] = True
@@ -132,11 +137,33 @@ class Jobs:
                     abl.name = a
                     avail[a] = False
                     if counterKeys[a]:
-                        unitsWithCounter[key] = a
-                        # TODO: UPDATE ANIMATION
+                        self.updateCounterAnimation(key, a)
+
+
+    def updateCounterAnimation(self, unit, ability):
+        if 'P021' in ability:
+            key = ability.replace('P021', 'ATTACK_P021')
+        else:
+            key = f'{ability}_ATTACK'
+        apd = self.atkParamData[self.abilityData[key]['AttackParam'].name]
+        weapon = self.counterAnimations[unit]
+        apd['FlipbookId'].name = f'ATK_{weapon}'
+        if '_HAWK' in weapon:
+            weapon = weapon.replace('_HAWK', '')
+        elif 'GREATSWORD' in weapon:
+            weapon = weapon.replace('GREATSWORD', 'LSWORD')
+        elif 'CLUB_S' in weapon:
+            weapon = weapon.replace('CLUB_S', 'CLUB')
+        elif '_P023' in weapon:
+            weapon = weapon.replace('_P023', '')
+        elif 'PUNCH' in weapon:
+            weapon = weapon.replace('PUNCH', 'SHIELD')
+        apd['HitSE'].name = f'SE_BTL_{weapon}_HIT'
+        apd['HitSEToLand'].name = f'SE_BTL_{weapon}_HIT'
 
     def update(self):
         self.job.update()
+        self.atkParam.update()
 
     def spoilers(self, *args):
         k2n = {

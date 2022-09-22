@@ -924,7 +924,7 @@ class UAsset(File):
         if idx >= 0:
             return idx
 
-        assert name in UAsset.indexId
+        assert name in UAsset.indexId, f'Missing {name}'
         self.addIndex(name)
         return self.indexName[name]
 

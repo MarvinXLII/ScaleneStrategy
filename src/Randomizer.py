@@ -8,6 +8,7 @@ from Units import Units
 from Level import Level, initLevels, randomizeLevelInits
 from Text import TextAll
 from Maps import MapCfg
+from Image import TitleImage
 from Items import Accessories, ClassMedal, ItemBattle, UpgradeMaterial, Shops, research_item_randomize, research_spoiler
 from Weapons import WeaponAbilityTree, WeaponMaterial, Weapon
 from Growth import Growth
@@ -40,6 +41,7 @@ class Rando:
         self.units = Units(pak)
         self.jobs = Jobs(pak)
         self.text = TextAll(pak)
+        self.title = TitleImage(pak)
         self.mapcfg = MapCfg(pak)
         self.accessories = Accessories(pak)
         self.medals = ClassMedal(pak)
@@ -60,6 +62,7 @@ class Rando:
 
     def randomize(self):
         self.text.updateMainScreen()
+        self.title.updateTitle()
 
         # Item buy/sell costs
         self.seed.setSeed()
@@ -178,6 +181,7 @@ class Rando:
 
     def dump(self, fileName):
         self.text.update()
+        self.title.update()
         self.units.update()
         self.mapcfg.update()
         self.accessories.update()

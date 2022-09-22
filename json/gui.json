@@ -3,9 +3,9 @@
     Class/Weapons: [
       {
 	name: random-class-support-skills
-	label: "Random support skills (New Game Only)"
+	label: Random support skills (New Game Only)
 	type: checkbutton
-	help: "Randomly assign a set of support skills to each unit.\n\nNote: Since skills are stored in save files, this will only work properly in New Games.\n\nNote: Counter attack animations typically use dummy sprites.\n\nNote: Decimal is stuck with his support skills for technical reasons."
+	help: "Randomly assign a set of support skills to each unit.\n\nNote: Since skills are stored in save files, this will only work properly in New Games.\n\nNote: Decimal is stuck with his support skills for technical reasons."
       }
       {
 	name: shuffle-class-rank-items
@@ -63,7 +63,7 @@
     Battles: [
       {
 	name: random-battle-unit-placement
-	label: Random unit/enemy starting positions
+	label: Random starting positions
 	type: checkbutton
 	help: "Randomly place starting positions of playable units and enemy units in Main Story battles.\n\nWhile all battles should be beatable on any difficulty setting, do not expect a deathless run to be possible."
       }
@@ -89,9 +89,9 @@
     Units: [
       {
 	name: shuffle-playable-units
-	label: Shuffle units
+	label: Shuffle playable units
 	type: checkbutton
-	help: "Shuffles when playable characters join (and hence also leave) your party.\n\nFor techincal reasons, Serenoa will still always be the main character, and on the golden ending, Roland, Benedict, and Frederica will still lead their battles, joining your party if necessary."
+	help: "Shuffles when playable units join (and hence also leave) your party.\n\nFor techincal reasons, Serenoa will still always be the main character, and on the golden ending, Roland, Benedict, and Frederica will still lead their battles, joining your party if necessary."
 	indent: [
 	  {
 	    name: update-playable-unit-sprites
