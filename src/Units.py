@@ -146,7 +146,9 @@ class Units:
 
         # Avlora
         # Not allowed in battles requiring Serenoa (and possibly Roland) -> units P001-2
+        # Don't swap with Milo; leads to Ch. 14 softlock
         weights['UNIT_MASTER_CH_P016'][:2] = [False]*2
+        weights['UNIT_MASTER_CH_P016'][11] = False
 
         ###################################
 
